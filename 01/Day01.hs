@@ -1,3 +1,26 @@
 module Day01 where
 
-main = putStrLn "Hello, Haskell!"
+part1 :: String -> Int
+part1 = getSum . lines
+  where
+    filterToNums :: String -> String
+    filterToNums s = [n | n <- s, n `elem` ['0' .. '9']]
+
+    getCalibrationValue :: String -> String
+    getCalibrationValue ns
+      | null ns = []
+      | length ns == 1 = ns ++ ns
+      | otherwise = head ns : [last ns]
+
+    convertNumsToInt :: String -> Int
+    convertNumsToInt = read . getCalibrationValue . filterToNums
+
+    getSum :: [String] -> Int
+    getSum = foldl (\acc line -> acc + convertNumsToInt line) 0
+
+solve :: String -> IO ()
+solve filename = do
+  c <- readFile filename
+  print $ part1 c
+
+main = solve "input.txt"
