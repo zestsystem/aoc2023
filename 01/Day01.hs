@@ -19,7 +19,7 @@ part1 = getSum . lines
     getSum = sum . map convertNumsToInt
 
 part2 :: String -> Int
-part2 = getSum . lines
+part2 = part1 . replaceWordsToDigit
   where
     replaceWordsToDigit :: String -> String
     replaceWordsToDigit ('z' : 'e' : 'r' : 'o' : xs) = '0' : replaceWordsToDigit xs
@@ -34,22 +34,6 @@ part2 = getSum . lines
     replaceWordsToDigit ('n' : 'i' : 'n' : 'e' : xs) = '9' : replaceWordsToDigit xs
     replaceWordsToDigit (x : xs) = x : replaceWordsToDigit xs
     replaceWordsToDigit "" = ""
-
-    filterToNums :: String -> String
-    filterToNums s = [n | n <- replaceWordsToDigit s, n `elem` ['0' .. '9']]
-
-    getCalibrationValue :: String -> String
-    getCalibrationValue ns
-      | null ns = "0"
-      | length ns == 1 = ns ++ ns
-      | otherwise = head ns : [last ns]
-
-    convertNumsToInt :: String -> Int
-    convertNumsToInt = read . getCalibrationValue . filterToNums
-
-    getSum :: [String] -> Int
-    -- getSum = foldl (\acc line -> acc + convertNumsToInt line) 0
-    getSum = sum . map convertNumsToInt
 
 solve :: String -> IO ()
 solve filename = do
