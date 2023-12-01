@@ -8,7 +8,7 @@ part1 = getSum . lines
 
     getCalibrationValue :: String -> String
     getCalibrationValue ns
-      | null ns = []
+      | null ns = "0"
       | length ns == 1 = ns ++ ns
       | otherwise = head ns : [last ns]
 
@@ -16,7 +16,8 @@ part1 = getSum . lines
     convertNumsToInt = read . getCalibrationValue . filterToNums
 
     getSum :: [String] -> Int
-    getSum = foldl (\acc line -> acc + convertNumsToInt line) 0
+    getSum = sum . map convertNumsToInt
+
 
 solve :: String -> IO ()
 solve filename = do
